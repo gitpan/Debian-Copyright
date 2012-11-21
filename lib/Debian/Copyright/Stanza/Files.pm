@@ -4,7 +4,7 @@ Debian::Copyright::Stanza::Files - Files stanza of Debian copyright file
 
 =head1 VERSION
 
-This document describes Debian::Copyright::Stanza::Files version 0.1 .
+This document describes Debian::Copyright::Stanza::Files version 0.2 .
 
 =head1 SYNOPSIS
 
@@ -33,21 +33,22 @@ replaced with underscores.
 
 =item Copyright
 
-=item X_Comment
+=item Comment
 
 =back
 
 =cut
 
 package Debian::Copyright::Stanza::Files;
+require v5.10.1;
 use strict;
 use warnings;
 use base qw(Debian::Copyright::Stanza);
 use constant fields => qw (
-    Files Copyright License X_Comment
+    Files Copyright License Comment
 );
 
-our $VERSION = '0.1';
+our $VERSION = '0.2';
 
 =head1 CONSTRUCTOR
 
@@ -77,7 +78,7 @@ L<Debian::Copyright::Stanza>
 
 =head1 COPYRIGHT & LICENSE
 
-Copyright (C) 2011 Nicholas Bamber L<nicholas@periapt.co.uk>
+Copyright (C) 2011-12 Nicholas Bamber L<nicholas@periapt.co.uk>
 
 This module is substantially based upon L<Debian::Control::Stanza::Source>.
 Copyright (C) 2009 Damyan Ivanov L<dmn@debian.org>

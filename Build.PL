@@ -12,6 +12,9 @@ my $builder = Module::Build->new(
         'Test::More' => 0,
         'Perl6::Slurp' => 0,
         'Test::LongString' => 0,
+        'Test::Exception' => 0,
+        'Test::Deep' => 0,
+        'Test::NoWarnings' => 0,
     },
     configure_requires => { 'Module::Build' => 0.38 },
     requires => {
@@ -20,6 +23,7 @@ my $builder = Module::Build->new(
         'Tie::IxHash' => 0,
         'Array::Unique' => 0,
         'Class::Accessor'=> 0,
+        perl=>'5.10.1',
     },
     add_to_cleanup      => [ 'Debian-Copyright-*' ],
     create_makefile_pl => 'traditional',

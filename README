@@ -2,19 +2,27 @@ NAME
     Debian::Copyright - manage Debian copyright files
 
 VERSION
-    This document describes Debian::Copyright version 0.1 .
+    This document describes Debian::Copyright version 0.2 .
 
 SYNOPSIS
         my $c = Debian::Copyright->new();       # construct a new
         $c->read($file1);                       # parse debian copyright file
         $c->read($file2);                       # parse a second
-        $c->write($ofile);                       # write to file
+        $c->write($ofile);                      # write to file
 
 DESCRIPTION
     Debian::Copyright can be used for the representation, manipulation and
     merging of Debian copyright files in an object-oriented way. It provides
     easy reading and writing of the debian/copyright file found in Debian
-    source packages.
+    source packages. Debian has recently started standardising its copyright
+    files around the machine-readable DEP-5/Format:
+    http://www.debian.org/doc/packaging-manuals/copyright-format/1.0/
+    format.
+
+  note on terminology
+    The term "Stanza" derives from the dh-make-perl tool. The official term
+    would now be "Paragraph". For the purposes of discussing the DEP-5
+    format the terms are used interchangeably in this documentation.
 
 FIELDS
   header
@@ -56,13 +64,20 @@ METHODS
 
 LIMITATIONS
     This module is written with one particular version of DEP-5 in mind.
-    When required it should be easy to add support for extra versions, but
-    at the moment the supported version is the one generally used in the
-    Debian Perl Group.
+    Furthermore version 0.1 of this software was for a draft version the
+    standard. The changes in going from draft to standard were such that it
+    was not worth attempting to maintain backwards compatibility.
     Test coverage is not yet complete.
 
+INCOMPATIBILITIES
+    This version is not backwards compatible with version 0.1.
+
+ACKNOWLEDGEMENTS
+    Thanks to Charles Plessy for various comments regarding the
+    documentation.
+
 COPYRIGHT & LICENSE
-    Copyright (C) 2011 Nicholas Bamber nicholas@periapt.co.uk
+    Copyright (C) 2011-2012 Nicholas Bamber nicholas@periapt.co.uk
 
     This module was adapted from Debian::Control. Copyright (C) 2009 Damyan
     Ivanov dmn@debian.org [Portions]

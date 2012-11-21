@@ -4,9 +4,9 @@
       "Nicholas Bamber <nicholas@periapt.co.uk>"
    ],
    "dynamic_config" : 1,
-   "generated_by" : "Module::Build version 0.38, CPAN::Meta::Converter version 2.110930",
+   "generated_by" : "Module::Build version 0.4001, CPAN::Meta::Converter version 2.110440",
    "license" : [
-      "open_source"
+      "gpl_1"
    ],
    "meta-spec" : {
       "url" : "http://search.cpan.org/perldoc?CPAN::Meta::Spec",
@@ -17,8 +17,11 @@
       "build" : {
          "requires" : {
             "Perl6::Slurp" : 0,
+            "Test::Deep" : 0,
+            "Test::Exception" : 0,
             "Test::LongString" : 0,
-            "Test::More" : 0
+            "Test::More" : 0,
+            "Test::NoWarnings" : 0
          }
       },
       "configure" : {
@@ -32,34 +35,34 @@
             "Class::Accessor" : 0,
             "Parse::DebControl" : 0,
             "Tie::IxHash" : 0,
-            "perl" : "5.006"
+            "perl" : "v5.10.1"
          }
       }
    },
    "provides" : {
       "Debian::Copyright" : {
          "file" : "lib/Debian/Copyright.pm",
-         "version" : "0.1"
+         "version" : "0.2"
       },
       "Debian::Copyright::Stanza" : {
          "file" : "lib/Debian/Copyright/Stanza.pm",
-         "version" : "0.1"
+         "version" : "0.2"
       },
       "Debian::Copyright::Stanza::Files" : {
          "file" : "lib/Debian/Copyright/Stanza/Files.pm",
-         "version" : "0.1"
+         "version" : "0.2"
       },
       "Debian::Copyright::Stanza::Header" : {
          "file" : "lib/Debian/Copyright/Stanza/Header.pm",
-         "version" : "0.1"
+         "version" : "0.2"
       },
       "Debian::Copyright::Stanza::License" : {
          "file" : "lib/Debian/Copyright/Stanza/License.pm",
-         "version" : "0.1"
+         "version" : "0.2"
       },
       "Debian::Copyright::Stanza::OrSeparated" : {
          "file" : "lib/Debian/Copyright/Stanza/OrSeparated.pm",
-         "version" : "0.1"
+         "version" : "0.2"
       }
    },
    "release_status" : "stable",
@@ -71,5 +74,5 @@
          "url" : "http://github.com/periapt/Debian-Copyright/tree"
       }
    },
-   "version" : "0.1"
+   "version" : "0.2"
 }

@@ -4,21 +4,30 @@ Debian::Copyright - manage Debian copyright files
 
 =head1 VERSION
 
-This document describes Debian::Copyright version 0.1 .
+This document describes Debian::Copyright version 0.2 .
 
 =head1 SYNOPSIS
 
     my $c = Debian::Copyright->new();       # construct a new
     $c->read($file1);                       # parse debian copyright file
     $c->read($file2);                       # parse a second
-    $c->write($ofile);                       # write to file
+    $c->write($ofile);                      # write to file
 
 =head1 DESCRIPTION
 
 Debian::Copyright can be used for the representation, manipulation and
 merging of Debian copyright files in an object-oriented way. It provides easy
 reading and writing of the F<debian/copyright> file found in Debian source
-packages.
+packages. Debian has recently started standardising its copyright files
+around the machine-readable
+L<DEP-5/Format: http://www.debian.org/doc/packaging-manuals/copyright-format/1.0/>
+format. 
+
+=head2 note on terminology
+
+The term "Stanza" derives from the
+L<dh-make-perl|http://packages.debian.org/sid/dh-make-perl> tool. The official
+term would now be "Paragraph". For the purposes of discussing the DEP-5 format the terms are used interchangeably in this documentation.
 
 =head1 FIELDS
 
@@ -43,11 +52,12 @@ L<Debian::Copyright::Stanza::License> class.
 =cut
 
 package Debian::Copyright;
+require v5.10.1;
 use base 'Class::Accessor';
 use strict;
 use Carp;
 
-our $VERSION = '0.1';
+our $VERSION = '0.2';
 
 __PACKAGE__->mk_accessors(qw( _parser header files licenses ));
 
@@ -107,17 +117,21 @@ sub read {
     my $stanzas = $self->_parser->$parser_method( $file,
         { useTieIxHash => 1, verbMultiLine => 1 } );
 
-    for (@$stanzas) {
-        if ( $_->{'Format-Specification'}) {
-            if (! $self->header) {
-                $self->header( Debian::Copyright::Stanza::Header->new($_) );
-            }
+    if (exists $stanzas->[0]->{Format}) {
+        my $header = shift @$stanzas;
+        if (! $self->header) {
+             $self->header( Debian::Copyright::Stanza::Header->new($header) );
         }
-        elsif ( $_->{Files} ) {
+    }
+
+    for (@$stanzas) {
+        next if $_->{Format};
+        if ( $_->{Files} ) {
             $self->files->Push(
                 $_->{Files} => Debian::Copyright::Stanza::Files->new($_) );
+            next;
         }
-        elsif ( $_->{License} ) {
+        if ( $_->{License} ) {
             my $license = $_->{License};
             if ($license =~ m{\A([^\n]+)$}xms) {
                 $license = $1;
@@ -127,10 +141,9 @@ sub read {
             }
             $self->licenses->Push(
                 $license => Debian::Copyright::Stanza::License->new($_) );
+            next;
         }
-        else {
-            die "Got copyright stanza with unrecognised field\n";
-        }
+        die "Got copyright stanza with unrecognised field\n";
     }
     return;
 }
@@ -174,18 +187,27 @@ sub write {
 =over
 
 =item This module is written with one particular version of
-L<DEP-5|http://anonscm.debian.org/viewvc/dep/web/deps/dep5.mdwn?view=markup&pathrev=135>
-in mind. When required it should be easy to add support for extra versions,
-but at the moment the supported version is the one generally used in the
-Debian Perl Group.
+L<DEP-5|http://www.debian.org/doc/packaging-manuals/copyright-format/1.0/>
+in mind. Furthermore version 0.1 of this software was for a draft
+version the standard. The changes in going from draft to standard
+were such that it was not worth attempting to maintain backwards
+compatibility.
 
 =item Test coverage is not yet complete.
 
 =back
 
+=head1 INCOMPATIBILITIES
+
+This version is not backwards compatible with version 0.1.
+
+=head1 ACKNOWLEDGEMENTS
+
+Thanks to Charles Plessy for various comments regarding the documentation.
+
 =head1 COPYRIGHT & LICENSE
 
-Copyright (C) 2011 Nicholas Bamber L<nicholas@periapt.co.uk>
+Copyright (C) 2011-2012 Nicholas Bamber L<nicholas@periapt.co.uk>
 
 This module was adapted from L<Debian::Control>.
 Copyright (C) 2009 Damyan Ivanov L<dmn@debian.org> [Portions]
